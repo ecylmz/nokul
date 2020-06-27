@@ -59,7 +59,7 @@ jobs:
         env:
           cache-name: cache-bundle
         with:
-          path: vendor/bundle
+          path: $HOME/bundle
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
@@ -68,10 +68,19 @@ jobs:
         env:
           cache-name: cache-node_modules
         with:
-          path: vendor/bundle
+          path: $HOME/node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
+      - name: Cache bundle config directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle-config
+        with:
+          path: $HOME/.bundle_config
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
       - name: test
         run: docker-compose run test bundle exec rake static_analysis:all
         env:
