@@ -1,0 +1,83 @@
+name: test-and-deploy
+on: [push, pull_request]
+
+jobs:
+  init:
+    name: Initialize app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Cache vendor/bundle directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+      - name: Cache node_modules directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node_modules
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+      - name: docker-compose commands
+        run: |
+          docker-compose build test
+          docker-compose run test bin/plugdo bundle install -j4 --path /app/vendor/bundle --without development
+          docker-compose run test yarn install
+          docker-compose run test bin/rails db:create db:structure:load
+
+  static_analysis:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Cache vendor/bundle directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+      - name: Cache node_modules directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node_modules
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+      - name: test
+        run: docker-compose run test bundle exec rake static_analysis:all
+  security-and-db:
+    name: Security and db
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+  integration:
+    name: Integration tests
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: [static_analysis, security-and-db, integration]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
