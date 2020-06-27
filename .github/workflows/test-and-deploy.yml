@@ -33,10 +33,10 @@ jobs:
           docker-compose run test yarn install
           docker-compose run test bin/rails db:create db:structure:load
         env:
-          RAILS_MASTER_KEY= ${{ secrets.RAILS_MASTER_KEY }}
-          TENANT_MASTER_KEY= ${{ secrets.TENANT_MASTER_KEY }}
-          RAILS_ENV=test
-          NODE_ENV=development
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          TENANT_MASTER_KEY: ${{ secrets.TENANT_MASTER_KEY }}
+          RAILS_ENV: test
+          NODE_ENV: development
 
   static_analysis:
     name: Static Analysis
@@ -66,10 +66,10 @@ jobs:
       - name: test
         run: docker-compose run test bundle exec rake static_analysis:all
         env:
-          RAILS_MASTER_KEY= ${{ secrets.RAILS_MASTER_KEY }}
-          TENANT_MASTER_KEY= ${{ secrets.TENANT_MASTER_KEY }}
-          RAILS_ENV=test
-          NODE_ENV=development
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          TENANT_MASTER_KEY: ${{ secrets.TENANT_MASTER_KEY }}
+          RAILS_ENV: test
+          NODE_ENV: development
   security-and-db:
     name: Security and db
     runs-on: ubuntu-latest
