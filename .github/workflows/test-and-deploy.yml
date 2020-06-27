@@ -26,6 +26,15 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
+      - name: Cache bundle config directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle-config
+        with:
+          path: ~/.bundle_config
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
       - name: docker-compose commands
         run: |
           docker-compose build test
@@ -77,6 +86,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: ls app
+        run: ls -al
+      - name: ls bundle
+        run: ls -al /app/vendor/bundle
+      - name: ls bundle config
+        run: ls -al .bundle
   integration:
     name: Integration tests
     runs-on: ubuntu-latest
