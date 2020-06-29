@@ -13,7 +13,7 @@ jobs:
         env:
           cache-name: cache-bundle
         with:
-          path: $HOME/bundle
+          path: ${{ env.HOME }}/bundle
           key: ${{ runner.os }}-build-${{ env.cache-name }}-1-${{ hashFiles('Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-1-
@@ -22,7 +22,7 @@ jobs:
         env:
           cache-name: cache-node_modules
         with:
-          path: $HOME/node_modules
+          path: ${{ env.HOME }}/node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-1-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-1-
@@ -31,7 +31,7 @@ jobs:
         env:
           cache-name: cache-bundle-config
         with:
-          path: $HOME/.bundle_config
+          path: ${{ env.HOME }}/.bundle_config
           key: ${{ runner.os }}-build-${{ env.cache-name }}-1
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-1
@@ -59,7 +59,7 @@ jobs:
         env:
           cache-name: cache-bundle
         with:
-          path: $HOME/bundle
+          path: ${{ env.HOME }}/bundle
           key: ${{ runner.os }}-build-${{ env.cache-name }}-1-${{ hashFiles('Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-1-
@@ -68,7 +68,7 @@ jobs:
         env:
           cache-name: cache-node_modules
         with:
-          path: $HOME/node_modules
+          path: ${{ env.HOME }}/node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-1-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-1-
@@ -77,7 +77,7 @@ jobs:
         env:
           cache-name: cache-bundle-config
         with:
-          path: $HOME/.bundle_config
+          path: ${{ env.HOME }}/.bundle_config
           key: ${{ runner.os }}-build-${{ env.cache-name }}-1
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-1
@@ -100,7 +100,7 @@ jobs:
         env:
           cache-name: cache-bundle
         with:
-          path: $HOME/bundle
+          path: ${{ env.HOME }}/bundle
           key: ${{ runner.os }}-build-${{ env.cache-name }}-1-${{ hashFiles('Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-1-
@@ -109,7 +109,7 @@ jobs:
         env:
           cache-name: cache-node_modules
         with:
-          path: $HOME/node_modules
+          path: ${{ env.HOME }}/node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-1-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-1-
@@ -118,7 +118,7 @@ jobs:
         env:
           cache-name: cache-bundle-config
         with:
-          path: $HOME/.bundle_config
+          path: ${{ env.HOME }}/.bundle_config
           key: ${{ runner.os }}-build-${{ env.cache-name }}-1
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-1
