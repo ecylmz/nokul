@@ -12,27 +12,27 @@ jobs:
         id: cache-bundle
         uses: actions/cache@v2
         env:
-          cache-name: cache-bundle2
+          cache-name: cache-bundle4
         with:
-          path: $HOME/bundle
+          path: /home/runner/bundle
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
       - name: Cache node_modules directory
         uses: actions/cache@v2
         env:
-          cache-name: cache-node_modules2
+          cache-name: cache-node_modules4
         with:
-          path: $HOME/node_modules
+          path: /home/runner/node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
       - name: Cache bundle config directory
         uses: actions/cache@v2
         env:
-          cache-name: cache-bundle-config2
+          cache-name: cache-bundle-config4
         with:
-          path: $HOME/.bundle_config
+          path: /home/runner/.bundle_config
           key: ${{ runner.os }}-build-${{ env.cache-name }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}
@@ -63,25 +63,25 @@ jobs:
         env:
           cache-name: cache-bundle2
         with:
-          path: $HOME/bundle
+          path: /home/runner/bundle
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
       - name: Cache node_modules directory
         uses: actions/cache@v2
         env:
-          cache-name: cache-node_modules2
+          cache-name: cache-node_modules4
         with:
-          path: $HOME/node_modules
+          path: /home/runner/node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
       - name: Cache bundle config directory
         uses: actions/cache@v2
         env:
-          cache-name: cache-bundle-config2
+          cache-name: cache-bundle-config4
         with:
-          path: $HOME/.bundle_config
+          path: /home/runner/.bundle_config
           key: ${{ runner.os }}-build-${{ env.cache-name }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}
@@ -104,25 +104,25 @@ jobs:
         env:
           cache-name: cache-bundle2
         with:
-          path: $HOME/bundle
+          path: /home/runner/bundle
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
       - name: Cache node_modules directory
         uses: actions/cache@v2
         env:
-          cache-name: cache-node_modules2
+          cache-name: cache-node_modules4
         with:
-          path: $HOME/node_modules
+          path: /home/runner/node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
       - name: Cache bundle config directory
         uses: actions/cache@v2
         env:
-          cache-name: cache-bundle-config2
+          cache-name: cache-bundle-config4
         with:
-          path: $HOME/.bundle_config
+          path: /home/runner/.bundle_config
           key: ${{ runner.os }}-build-${{ env.cache-name }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}
