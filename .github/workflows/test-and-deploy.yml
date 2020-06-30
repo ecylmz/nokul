@@ -423,7 +423,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}
 
-      - name: test
+      - name: secret test
         run: docker-compose run test bundle exec rake static_analysis:secrets
 
   security-and-db:
