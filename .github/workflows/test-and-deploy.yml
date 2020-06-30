@@ -57,8 +57,8 @@ jobs:
           docker-compose run test bin/plugdo bundle install -j4 --path /app/vendor/bundle --without development
           docker-compose run test yarn install
 
-  static_analysis:
-    name: Static Analysis
+  bundle_audit:
+    name: Bundle Audit
     runs-on: ubuntu-latest
     needs: init
     steps:
@@ -96,7 +96,335 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: test
-        run: docker-compose run test bundle exec rake static_analysis:all
+        run: docker-compose run test bundle exec rake static_analysis:bundle_audit
+
+  brakeman:
+    name: Brakeman
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache vendor/bundle directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle5
+        with:
+          path: /home/runner/bundle
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache node_modules directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node_modules5
+        with:
+          path: /home/runner/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache bundle config directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle-config5
+        with:
+          path: /home/runner/.bundle_config
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: test
+        run: docker-compose run test bundle exec rake static_analysis:brakeman
+
+  erb_linter:
+    name: Erb Linter
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache vendor/bundle directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle5
+        with:
+          path: /home/runner/bundle
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache node_modules directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node_modules5
+        with:
+          path: /home/runner/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache bundle config directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle-config5
+        with:
+          path: /home/runner/.bundle_config
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: test
+        run: docker-compose run test bundle exec rake static_analysis:erb_linter
+
+  eslint:
+    name: eslint
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache vendor/bundle directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle5
+        with:
+          path: /home/runner/bundle
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache node_modules directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node_modules5
+        with:
+          path: /home/runner/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache bundle config directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle-config5
+        with:
+          path: /home/runner/.bundle_config
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: test
+        run: docker-compose run test bundle exec rake static_analysis:eslint
+
+  executables:
+    name: executables
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache vendor/bundle directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle5
+        with:
+          path: /home/runner/bundle
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache node_modules directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node_modules5
+        with:
+          path: /home/runner/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache bundle config directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle-config5
+        with:
+          path: /home/runner/.bundle_config
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: test
+        run: docker-compose run test bundle exec rake static_analysis:executables
+
+  html_linter:
+    name: html linter
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache vendor/bundle directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle5
+        with:
+          path: /home/runner/bundle
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache node_modules directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node_modules5
+        with:
+          path: /home/runner/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache bundle config directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle-config5
+        with:
+          path: /home/runner/.bundle_config
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: test
+        run: docker-compose run test bundle exec rake static_analysis:html_linter
+
+  markdownlint:
+    name: markdown lint
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache vendor/bundle directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle5
+        with:
+          path: /home/runner/bundle
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache node_modules directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node_modules5
+        with:
+          path: /home/runner/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache bundle config directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle-config5
+        with:
+          path: /home/runner/.bundle_config
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: test
+        run: docker-compose run test bundle exec rake static_analysis:markdownlint
+
+  rubocop:
+    name: rubocop
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache vendor/bundle directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle5
+        with:
+          path: /home/runner/bundle
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache node_modules directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node_modules5
+        with:
+          path: /home/runner/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache bundle config directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle-config5
+        with:
+          path: /home/runner/.bundle_config
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: test
+        run: docker-compose run test bundle exec rake static_analysis:rubocop
+
+  secrets:
+    name: secrets
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache vendor/bundle directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle5
+        with:
+          path: /home/runner/bundle
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache node_modules directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node_modules5
+        with:
+          path: /home/runner/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache bundle config directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle-config5
+        with:
+          path: /home/runner/.bundle_config
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: test
+        run: docker-compose run test bundle exec rake static_analysis:secrets
 
   security-and-db:
     name: Security and db
@@ -181,12 +509,55 @@ jobs:
         run: docker-compose run test bin/rails db:create db:structure:load
 
       - name: integration test
-        run: docker-compose run test bundle exec rails test:system test
+        run: docker-compose run test bundle exec rails test
+
+  integration_system:
+    name: Integration system tests
+    runs-on: ubuntu-latest
+    needs: init
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache vendor/bundle directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle5
+        with:
+          path: /home/runner/bundle
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache node_modules directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node_modules5
+        with:
+          path: /home/runner/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache bundle config directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-bundle-config5
+        with:
+          path: /home/runner/.bundle_config
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: create test db
+        run: docker-compose run test bin/rails db:create db:structure:load
+
+      - name: integration test
+        run: docker-compose run test bundle exec rails test:system
 
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: [static_analysis, security-and-db, integration]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
