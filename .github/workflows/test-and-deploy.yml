@@ -9,19 +9,6 @@ env:
   NODE_ENV: development
 
 jobs:
-
-  build:
-    name: Build docker image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - uses: satackey/action-docker-layer-caching@v0.0
-
-      - name: Build image
-        run: docker-compose build test
-
   init:
     name: Initialize app
     runs-on: ubuntu-latest
@@ -64,10 +51,9 @@ jobs:
         if: steps.cache-bundle.outputs.cache-hit != 'true'
         run: mkdir -p $HOME/bundle $HOME/.bundle_config $HOME/node_modules
 
-      - uses: satackey/action-docker-layer-caching@v0.0
-
       - name: docker-compose commands
         run: |
+          docker-compose build test
           docker-compose run test bin/plugdo bundle install -j4 --path /app/vendor/bundle --without development
           docker-compose run test yarn install
 
@@ -109,11 +95,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}
 
-      - uses: satackey/action-docker-layer-caching@v0.0
-
       - name: test
         run: docker-compose run test bundle exec rake static_analysis:all
-  
+
   security-and-db:
     name: Security and db
     runs-on: ubuntu-latest
@@ -151,8 +135,6 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}
-
-      - uses: satackey/action-docker-layer-caching@v0.0
 
       - name: security and db test
         run: docker-compose run test bundle exec rake db:index
@@ -194,8 +176,6 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}
-
-      - uses: satackey/action-docker-layer-caching@v0.0
 
       - name: create test db
         run: docker-compose run test bin/rails db:create db:structure:load
