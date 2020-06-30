@@ -59,6 +59,7 @@ services:
       RAILS_ENV: $RAILS_ENV
       NODE_ENV: $NODE_ENV
       CI: $CI
+      PARALLEL_WORKERS: 2
     depends_on:
       - db
       - redis
