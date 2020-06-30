@@ -185,7 +185,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: create test db
-        run docker-compose run test bin/rails db:create db:structure:load
+        run: docker-compose run test bin/rails db:create db:structure:load
         env:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
           TENANT_MASTER_KEY: ${{ secrets.TENANT_MASTER_KEY }}
