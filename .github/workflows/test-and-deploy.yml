@@ -1,5 +1,12 @@
 name: test-and-deploy
+
 on: [push, pull_request]
+
+env:
+  RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+  TENANT_MASTER_KEY: ${{ secrets.TENANT_MASTER_KEY }}
+  RAILS_ENV: test
+  NODE_ENV: development
 
 jobs:
 
@@ -63,11 +70,6 @@ jobs:
         run: |
           docker-compose run test bin/plugdo bundle install -j4 --path /app/vendor/bundle --without development
           docker-compose run test yarn install
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          TENANT_MASTER_KEY: ${{ secrets.TENANT_MASTER_KEY }}
-          RAILS_ENV: test
-          NODE_ENV: development
 
   static_analysis:
     name: Static Analysis
@@ -111,11 +113,7 @@ jobs:
 
       - name: test
         run: docker-compose run test bundle exec rake static_analysis:all
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          TENANT_MASTER_KEY: ${{ secrets.TENANT_MASTER_KEY }}
-          RAILS_ENV: test
-          NODE_ENV: development
+  
   security-and-db:
     name: Security and db
     runs-on: ubuntu-latest
@@ -158,11 +156,6 @@ jobs:
 
       - name: security and db test
         run: docker-compose run test bundle exec rake db:index
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          TENANT_MASTER_KEY: ${{ secrets.TENANT_MASTER_KEY }}
-          RAILS_ENV: test
-          NODE_ENV: development
 
   integration:
     name: Integration tests
@@ -206,19 +199,9 @@ jobs:
 
       - name: create test db
         run: docker-compose run test bin/rails db:create db:structure:load
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          TENANT_MASTER_KEY: ${{ secrets.TENANT_MASTER_KEY }}
-          RAILS_ENV: test
-          NODE_ENV: development
 
       - name: integration test
         run: docker-compose run test bundle exec rails test:system test
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          TENANT_MASTER_KEY: ${{ secrets.TENANT_MASTER_KEY }}
-          RAILS_ENV: test
-          NODE_ENV: development
 
   deploy:
     name: Deploy
