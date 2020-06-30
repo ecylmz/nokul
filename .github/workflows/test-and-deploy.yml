@@ -7,6 +7,7 @@ env:
   TENANT_MASTER_KEY: ${{ secrets.TENANT_MASTER_KEY }}
   RAILS_ENV: test
   NODE_ENV: development
+  PARALLEL_WORKERS: 2
 
 jobs:
   init:
