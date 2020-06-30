@@ -49,7 +49,6 @@ jobs:
           docker-compose build test
           docker-compose run test bin/plugdo bundle install -j4 --path /app/vendor/bundle --without development
           docker-compose run test yarn install
-          docker-compose run test bin/rails db:create db:structure:load
         env:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
           TENANT_MASTER_KEY: ${{ secrets.TENANT_MASTER_KEY }}
@@ -184,6 +183,14 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: create test db
+        run docker-compose run test bin/rails db:create db:structure:load
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          TENANT_MASTER_KEY: ${{ secrets.TENANT_MASTER_KEY }}
+          RAILS_ENV: test
+          NODE_ENV: development
 
       - name: integration test
         run: docker-compose run test bundle exec rails test:system test
